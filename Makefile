@@ -15,8 +15,7 @@ BUILD_EXAMPLE_TAG ?= getgo/gostatic-example
 EXAMPLE_DIR ?= $(ROOT_DIR)/example
 
 # Azure config
-AZURE_ID_CMD ?= cat $(AZURE_PROFILE)|$(JQ) '.subscriptions[].id'
-AZURE_ID ?= $(shell $(AZURE_ID_CMD))
+AZURE_ID ?= $(shell cat $(AZURE_PROFILE)|$(JQ) '.subscriptions[].id')
 AZURE_PROFILE ?= ~/.azure/azureProfile.json
 
 test: run
