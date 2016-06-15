@@ -1,4 +1,4 @@
-.PHONY= build build-example
+.PHONY= build build-example run-example test
 
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
@@ -7,6 +7,8 @@ DOCKER_COMPOSE ?= $(shell DOCKER_COMPOSE)
 BUILD_TAG ?= getgo/gostatic
 BUILD_EXAMPLE_TAG ?= getgo/gostatic-example
 EXAMPLE_DIR ?= $(ROOT_DIR)/example
+
+test: run-example
 
 build:
 	$(DOCKER) build -t $(BUILD_TAG) $(ROOT_DIR)/.
