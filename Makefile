@@ -9,12 +9,13 @@ DOCKER_MACHINE ?= $(shell which docker-machine)
 AZURE ?= $(shell which azure)
 
 # Docker config
-DOCKER_MACHINE_NAME = make-machine
+DOCKER_MACHINE_NAME ?= make-machine
 BUILD_TAG ?= getgo/gostatic
 BUILD_EXAMPLE_TAG ?= getgo/gostatic-example
 EXAMPLE_DIR ?= $(ROOT_DIR)/example
 
 # Azure config
+AZURE_SSH_USER ?= ops
 AZURE_ID ?= $(shell cat $(AZURE_PROFILE)|$(JQ) '.subscriptions[].id')
 AZURE_PROFILE ?= ~/.azure/azureProfile.json
 
@@ -31,10 +32,9 @@ build:
 
 create_machine: check_azure_id $(DOCKER_MACHINE)
 	$(call check_defined, AZURE_ID)
-	$(DOCKER_MACHINE) create -d azure --azure-ssh-user ops --azure-subscription-id $(AZURE_ID) $(DOCKER_MACHINE_NAME)
+	$(DOCKER_MACHINE) create -d azure --azure-ssh-user $(AZURE_SSH_USER) --azure-subscription-id $(AZURE_ID) $(DOCKER_MACHINE_NAME)
 
 check_azure_id: $(AZURE_PROFILE) $(JQ)
-	@echo Checking for Azure ID ...
 	@echo Azure ID: $(AZURE_ID)
 
 $(AZURE):
