@@ -4,10 +4,10 @@ ENV BUILD_DEPS 'go=1.6.2-r2'
 ENV DEL_BUILD_DEPS go
 
 WORKDIR /opt/build/src
-ADD . /opt/build/src/app
 
 RUN apk --update --no-cache add openssl ca-certificates
 
+ONBUILD ADD . /opt/build/src/app
 ONBUILD RUN apk add --update $BUILD_DEPS && \
     export GOPATH=/opt/build/ && \
     CGO_ENABLED=0 go build -o /opt/static/app app && \
